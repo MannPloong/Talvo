@@ -366,6 +366,59 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
 @keyframes spUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes spGrow{from{width:0}to{width:100%}}
 @media (prefers-reduced-motion:reduce){#splash *{animation-duration:.01s !important;animation-delay:0s !important}}
+
+/* ===== runtunan api (streak) ===== */
+.skf .o{fill:url(#skg)}
+.skf .i{fill:#fff3b0}
+.sk-btn{display:flex;align-items:center;gap:3px;padding:6px 9px}
+.sk-btn .skn{font-size:14px;font-weight:800}
+.sk-btn.off .skf .o{fill:none;stroke:var(--sub);stroke-width:1.5}
+.sk-btn.off .skf .i{display:none}
+.sk-btn.wait .skf{animation:skPulse 1.4s ease-in-out infinite}
+.sk-btn.wait .skf .o{fill:none;stroke:#ff8a00;stroke-width:1.6}
+.sk-btn.wait .skf .i{display:none}
+.sk-btn.on .skf{animation:skFlick 1.1s ease-in-out infinite;transform-origin:50% 90%}
+.sk-btn.on .skn{color:#ff8a00}
+.sk-btn.risk .skf{animation:skShake .6s ease-in-out infinite}
+.sk-btn.risk .skn{color:#ef4444}
+#skBanner{display:none;align-items:center;gap:10px;padding:9px 14px;background:rgba(255,138,0,.14);border-bottom:1px solid rgba(255,138,0,.35);font-size:13.5px;cursor:pointer;flex:none}
+#skBanner span{flex:1}
+#skBanner u{color:#ff8a00;font-weight:700;text-decoration:none}
+.skov{position:absolute;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:25}
+.skov.show{display:flex}
+.skcard{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.skcard h3{margin:0;font-size:19px}
+.skcard p{margin:0;color:var(--sub);font-size:14px;line-height:1.5}
+.skcard .row{display:flex;gap:10px;width:100%;margin-top:6px}
+.sk-big{width:84px;height:84px;display:grid;place-items:center}
+.sk-big:not(.lit) .skf .o{fill:none;stroke:var(--sub);stroke-width:1.2}
+.sk-big:not(.lit) .skf .i{display:none}
+.sk-big.lit .skf{animation:skFlick 1.1s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,120,0,.6))}
+.sk-num{font-size:40px;font-weight:900;color:#ff8a00;line-height:1}
+.sk-days{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:4px}
+.sk-d{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--card2);border-radius:12px;font-size:14px}
+.sk-d .ok{color:#22c55e;font-weight:700}
+.sk-d .no{color:var(--sub)}
+.sk-warn{color:#ef4444!important;font-weight:600}
+.sk-mini{display:inline-flex;align-items:center;gap:1px;margin-left:6px;font-size:12px;font-weight:800;color:#ff8a00;vertical-align:middle}
+.sk-mini.inv{background:rgba(255,138,0,.16);border-radius:8px;padding:1px 7px;font-weight:700}
+#skCele{position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 55%,rgba(255,110,0,.45),rgba(0,0,0,.82) 70%);cursor:pointer}
+#skCele.show{display:flex;animation:skFade .3s ease-out}
+.skc-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;text-align:center;padding:20px}
+.skc-fl{width:150px;height:150px;animation:skRise .8s cubic-bezier(.2,1.4,.4,1) both,skFlick 1s ease-in-out .8s infinite;filter:drop-shadow(0 0 30px rgba(255,120,0,.9))}
+.skc-n{font-size:72px;font-weight:900;line-height:1;margin-top:-10px;text-shadow:0 4px 20px rgba(255,100,0,.8)}
+.skc-n.pop{animation:skPop .55s cubic-bezier(.2,1.6,.4,1)}
+.skc-t{font-size:18px;font-weight:700}
+.skc-s{font-size:13.5px;opacity:.85}
+.skc-e span{position:absolute;left:50%;top:44%;width:var(--s);height:var(--s);border-radius:50%;background:#ffb300;opacity:0;animation:skEmber 1.8s ease-out var(--d) forwards}
+@keyframes skFlick{0%,100%{transform:scale(1) rotate(-2deg)}25%{transform:scale(1.08,1.12) rotate(2deg)}50%{transform:scale(.96,1.04) rotate(-1deg)}75%{transform:scale(1.06,1.1) rotate(1.5deg)}}
+@keyframes skPulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes skShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+@keyframes skFade{from{opacity:0}to{opacity:1}}
+@keyframes skRise{from{transform:translateY(60px) scale(.2);opacity:0}to{transform:none;opacity:1}}
+@keyframes skPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.35)}100%{transform:scale(1);opacity:1}}
+@keyframes skEmber{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--x),var(--y))}}
+@media (prefers-reduced-motion:reduce){.skf,.skc-fl,.skc-n{animation:none!important}}
 </style>
 </head>
 <body>
@@ -468,9 +521,11 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
         <div class="av" id="chatAv"></div>
         <div class="title"><b id="chatName"></b><span id="chatSub"></span></div>
         <button class="icon-btn" id="aiClear" aria-label="Hapus riwayat AI" style="display:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
+        <button class="icon-btn sk-btn off" id="skBtn" aria-label="Runtunan api" style="display:none"><span class="skfl"></span><span class="skn"></span></button>
         <button class="icon-btn" id="chatMenu" aria-label="Menu" style="display:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
       </header>
       <div id="cmenu"><button id="cmDel" type="button">Hapus kontak</button></div>
+      <div id="skBanner"><span></span><u>Lihat</u></div>
       <div id="msgs"></div>
       <div id="goneBar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><span id="goneTxt"></span></div>
       <div class="composer">
@@ -545,6 +600,9 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
     </section>
   </div>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="skg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff3d00"/><stop offset=".55" stop-color="#ff8a00"/><stop offset="1" stop-color="#ffd23f"/></linearGradient></defs></svg>
+  <div class="skov" id="skSheet"><div class="skcard" id="skCard"></div></div>
+  <div id="skCele"><div class="skc-in"><div class="skc-fl" id="skCeleFl"></div><div class="skc-n" id="skCeleN">0</div><div class="skc-t" id="skCeleT"></div><div class="skc-s" id="skCeleS"></div><div class="skc-e" id="skCeleE"></div></div></div>
   <div id="modal">
     <div class="card">
       <h3>Tambah kontak</h3>
@@ -1141,6 +1199,8 @@ function boot(cfg){
     const q = query(collection(db, "chats"), where("members", "array-contains", me));
     unsubChats = onSnapshot(q, snap => {
       chats = snap.docs.map(d => ({ id: d.id, ...d.data({ serverTimestamps: "estimate" }) }));
+      snap.docChanges().forEach(skWatch);
+      chats.forEach(skSync);
       watchStories(me);
       chats.forEach(c => { const o = c.members.find(m => m !== me); if (o){ watchProfile(o); watchStories(o); } });
       renderList();
@@ -1196,7 +1256,11 @@ function boot(cfg){
       const it = el("div", "item");
       const av = el("div", "av"); avatar(av, other);
       const mid = el("div", "mid");
-      mid.append(el("div", "name", dispName(other)));
+      const nmEl = el("div", "name", dispName(other));
+      { const sst = skStateOf(c), scn = skCount(skOf(c));
+        if (sst === "active" && scn > 0){ const b = el("span", "sk-mini"); b.innerHTML = skFlameSvg(14); b.append(String(scn)); nmEl.append(b); }
+        else if (sst === "in"){ nmEl.append(el("span", "sk-mini inv", "Undangan api")); } }
+      mid.append(nmEl);
       const removedMe = !!(c.gone && c.gone[other]);
       mid.append(el("div", "prev" + (removedMe ? " warn" : ""), removedMe ? "Menghapus atau memblokir kontakmu" : (c.lastMessage ? (c.lastFrom === me ? "Kamu: " : "") + c.lastMessage : "Belum ada pesan")));
       const right = el("div", "right");
@@ -1503,6 +1567,7 @@ function boot(cfg){
       $("#chatSub").textContent = "Asisten AI \u00B7 tanya apa saja";
       $("#aiClear").style.display = "";
       $("#chatMenu").style.display = "none";
+      skRefreshHeader();
       return;
     }
     $("#aiClear").style.display = "none";
@@ -1511,6 +1576,7 @@ function boot(cfg){
     avatar($("#chatAv"), currentOther);
     $("#chatName").textContent = dispName(currentOther);
     $("#chatSub").textContent = "@" + currentOther;
+    skRefreshHeader();
   }
   function openChat(other){
     currentOther = other;
@@ -1577,6 +1643,149 @@ function boot(cfg){
     if (!document.hidden){ setRead(id, newest); markReadRemote(id, snap); }
   }
 
+  /* ----- runtunan api (streak) ----- */
+  // Data ada di dokumen chat: chats/{id}.streak = { status: "invited" | "active", by, count, lastDay, days: { username: "YYYY-MM-DD" } }
+  // Hari dihitung memakai zona WIB (UTC+7) supaya sama untuk kedua pengguna.
+  const SK_TZ = 7 * 3600e3;
+  const dayKey = (ms) => new Date((ms || Date.now()) + SK_TZ).toISOString().slice(0, 10);
+  const yesterdayKey = () => dayKey(Date.now() - 864e5);
+  const skOf = c => (c && c.streak && c.streak.status) ? c.streak : null;
+  const skFlameSvg = sz => '<svg class="skf" viewBox="0 0 24 24" width="' + sz + '" height="' + sz + '" aria-hidden="true"><path class="o" d="M12 2c.5 3-1.5 4.5-3 6.5C7.5 10.5 6 12.5 6 15a6 6 0 0 0 12 0c0-2.2-1-3.8-2-5-.4 1.2-1 2-2 2.4.6-3-.2-7.4-2-10.4z"/><path class="i" d="M12 21a3.5 3.5 0 0 1-3.5-3.6c0-1.6 1-2.6 2-3.8.3 1 .8 1.5 1.5 1.8.5-.9.6-1.8.5-2.8 1.3 1.1 3 2.7 3 4.8A3.5 3.5 0 0 1 12 21z"/></svg>';
+  // hitungan efektif: 0 kalau sudah lewat satu hari penuh tanpa saling chat
+  function skCount(s){
+    if (!s || s.status !== "active") return 0;
+    return (s.lastDay === dayKey() || s.lastDay === yesterdayKey()) ? (s.count || 0) : 0;
+  }
+  function skStateOf(c){
+    const s = skOf(c); if (!s) return "none";
+    if (s.status === "active") return "active";
+    return s.by === me ? "out" : "in";
+  }
+  const skChat = () => (currentOther && currentOther !== AI_ID) ? chats.find(c => c.id === chatId(me, currentOther)) : null;
+
+  // dipanggil saat kirim pesan: tandai hari ini aku sudah chat, dan naikkan hitungan kalau temanku juga sudah
+  function skTouch(c){
+    const s = skOf(c); if (!s || s.status !== "active") return null;
+    const other = (c.members || []).find(m => m !== me), t = dayKey(), d = s.days || {};
+    const o = { days: { [me]: t } };
+    if (other && d[other] === t && s.lastDay !== t){
+      o.count = (s.lastDay === yesterdayKey() ? (s.count || 0) : 0) + 1; o.lastDay = t;
+    }
+    return o;
+  }
+  function skMerge(id){ const t = skTouch(chats.find(x => x.id === id)); return t ? { streak: t } : {}; }
+
+  // cadangan: kalau dua-duanya sudah chat hari ini tapi hitungan belum naik (misal sempat offline), naikkan sekarang
+  const skSyncing = new Set();
+  function skSync(c){
+    const s = skOf(c); if (!s || s.status !== "active") return;
+    const other = (c.members || []).find(m => m !== me), t = dayKey(), d = s.days || {};
+    if (!other || d[me] !== t || d[other] !== t || s.lastDay === t) return;
+    const key = c.id + ":" + t; if (skSyncing.has(key)) return; skSyncing.add(key);
+    const n = (s.lastDay === yesterdayKey() ? (s.count || 0) : 0) + 1;
+    updateDoc(doc(db, "chats", c.id), { "streak.count": n, "streak.lastDay": t }).catch(() => skSyncing.delete(key));
+  }
+
+  const skPrevCount = new Map(), skPrevStatus = new Map();
+  function skWatch(ch){
+    const cid = ch.doc.id, c = ch.doc.data({ serverTimestamps: "estimate" });
+    const other = (c.members || []).find(m => m !== me), s = skOf(c);
+    const status = s ? s.status : "", cnt = (s && s.status === "active") ? (s.count || 0) : 0;
+    const hadC = skPrevCount.get(cid), hadS = skPrevStatus.get(cid);
+    skPrevCount.set(cid, cnt); skPrevStatus.set(cid, status);
+    if (ch.type !== "modified" || hadC === undefined || !s || !other) return;
+    if (status === "invited" && s.by !== me && hadS !== "invited") notify(dispName(s.by), "Mengajakmu membangun runtunan api \uD83D\uDD25");
+    if (status === "active" && hadS === "invited" && s.by === me) toast(dispName(other) + " menerima undangan. Api menyala!");
+    if (status === "active" && cnt > hadC && s.lastDay === dayKey()) skCelebrate(other, hadC, cnt);
+  }
+
+  let skTimer = null;
+  function skCelebrate(other, from, to){
+    const o = $("#skCele"), n = $("#skCeleN");
+    $("#skCeleFl").innerHTML = skFlameSvg(150);
+    n.classList.remove("pop"); n.textContent = String(from);
+    $("#skCeleT").textContent = to <= 1 ? "Api menyala!" : "Runtunan api bertambah!";
+    $("#skCeleS").textContent = "Bersama " + dispName(other) + " \u00B7 " + to + " hari berturut-turut";
+    const em = $("#skCeleE"); em.textContent = "";
+    for (let i = 0; i < 18; i++){
+      const sp = document.createElement("span"), ang = (Math.random() * 160 - 170) * Math.PI / 180, dist = 90 + Math.random() * 150;
+      sp.style.setProperty("--s", (4 + Math.random() * 7) + "px");
+      sp.style.setProperty("--d", (Math.random() * 0.6) + "s");
+      sp.style.setProperty("--x", Math.round(Math.cos(ang) * dist) + "px");
+      sp.style.setProperty("--y", Math.round(Math.sin(ang) * dist - 40) + "px");
+      em.append(sp);
+    }
+    o.classList.remove("show"); void o.offsetWidth; o.classList.add("show");
+    try { navigator.vibrate && navigator.vibrate([40, 30, 60]); } catch {}
+    setTimeout(() => { n.textContent = String(to); n.classList.add("pop"); }, 650);
+    clearTimeout(skTimer); skTimer = setTimeout(() => o.classList.remove("show"), 3200);
+  }
+  $("#skCele").onclick = () => { clearTimeout(skTimer); $("#skCele").classList.remove("show"); };
+
+  function skRefreshHeader(){
+    const btn = $("#skBtn"), ban = $("#skBanner");
+    if (!currentOther || currentOther === AI_ID){ btn.style.display = "none"; ban.style.display = "none"; return; }
+    const c = skChat(), st = skStateOf(c), s = skOf(c), t = dayKey();
+    const risk = st === "active" && skCount(s) > 0 && s.lastDay === yesterdayKey() && !(((s.days || {})[me] === t) && ((s.days || {})[currentOther] === t));
+    btn.style.display = "";
+    btn.className = "icon-btn sk-btn " + (st === "active" ? (risk ? "risk on" : "on") : (st === "none" ? "off" : "wait"));
+    const slot = btn.querySelector(".skfl"); if (!slot.firstChild) slot.innerHTML = skFlameSvg(20);
+    btn.querySelector(".skn").textContent = st === "active" ? String(skCount(s)) : "";
+    ban.style.display = st === "in" ? "flex" : "none";
+    if (st === "in") ban.querySelector("span").textContent = dispName(currentOther) + " mengajakmu membangun runtunan api";
+    if ($("#skSheet").classList.contains("show")) skSheetRender();
+  }
+
+  function skWrite(data){
+    return updateDoc(doc(db, "chats", chatId(me, currentOther)), data)
+      .catch(e => toast(e.code === "permission-denied" ? "Ditolak server. Aturan Firestore perlu mengizinkan runtunan api." : "Gagal, coba lagi."));
+  }
+  function skClose(){ $("#skSheet").classList.remove("show"); }
+  function skOpen(){ if (!skChat()) return; $("#skSheet").classList.add("show"); skSheetRender(); }
+  function skSheetRender(){
+    const c = skChat(); if (!c){ skClose(); return; }
+    const st = skStateOf(c), s = skOf(c), nm = dispName(currentOther), t = dayKey(), card = $("#skCard");
+    card.textContent = "";
+    const big = el("div", "sk-big" + (st === "active" ? " lit" : "")); big.innerHTML = skFlameSvg(76); card.append(big);
+    const row = el("div", "row");
+    const btn = (label, cls, fn) => { const b = el("button", "btn " + cls, label); b.type = "button"; b.onclick = fn; return b; };
+    if (st === "none"){
+      card.append(el("h3", "", "Runtunan Api"));
+      card.append(el("p", "", "Ajak " + nm + " membangun runtunan. Setelah dia menerima, api menyala. Kalian cukup saling chat sekali sehari (isi apa saja), dan hitungan bertambah satu."));
+      row.append(btn("Tutup", "alt", skClose), btn("Undang " + nm, "", () => { skWrite({ streak: { status: "invited", by: me, count: 0, lastDay: "", days: {} } }); toast("Undangan terkirim"); }));
+    } else if (st === "out"){
+      card.append(el("h3", "", "Menunggu " + nm));
+      card.append(el("p", "", "Undanganmu sudah terkirim. Api menyala setelah " + nm + " menerimanya."));
+      row.append(btn("Tutup", "alt", skClose), btn("Batalkan undangan", "danger", () => { skWrite({ streak: deleteField() }); skClose(); }));
+    } else if (st === "in"){
+      card.append(el("h3", "", nm + " mengajakmu"));
+      card.append(el("p", "", "Bangun runtunan api bersama. Saling chat sekali sehari untuk menjaga apinya tetap menyala."));
+      row.append(btn("Tolak", "alt", () => { skWrite({ streak: deleteField() }); skClose(); }), btn("Terima", "", () => { skWrite({ streak: { status: "active", by: s.by, count: 0, lastDay: "", days: {}, since: Date.now() } }); }));
+    } else {
+      const n = skCount(s), d = s.days || {}, myDone = d[me] === t, hisDone = d[currentOther] === t;
+      card.append(el("div", "sk-num", String(n)));
+      card.append(el("h3", "", n === 1 ? "hari berturut-turut" : "hari berturut-turut"));
+      const days = el("div", "sk-days");
+      const mk = (who, done) => { const r = el("div", "sk-d"); r.append(el("span", "", who), el("span", done ? "ok" : "no", done ? "Sudah chat hari ini" : "Belum chat hari ini")); return r; };
+      days.append(mk("Kamu", myDone), mk(nm, hisDone));
+      card.append(days);
+      let msg = "Saling chat sekali sehari (isi apa saja) untuk menjaga api. Hari berganti pukul 00.00 WIB.";
+      let warn = false;
+      if (s.lastDay && s.lastDay < yesterdayKey()){ msg = "Runtunan sempat padam. Saling chat hari ini untuk menyalakannya lagi dari 1."; }
+      else if (n > 0 && s.lastDay === yesterdayKey() && !(myDone && hisDone)){ msg = "Api hampir padam! " + (!myDone ? "Kirim chat" : "Tunggu " + nm + " membalas") + " sebelum pukul 00.00 WIB."; warn = true; }
+      else if (s.lastDay === t){ msg = "Mantap, api hari ini sudah terjaga."; }
+      card.append(el("p", warn ? "sk-warn" : "", msg));
+      row.append(btn("Tutup", "alt", skClose), btn("Akhiri", "danger", () => { if (confirm("Akhiri runtunan api dengan " + nm + "?")){ skWrite({ streak: deleteField() }); skClose(); } }));
+    }
+    card.append(row);
+  }
+  $("#skBtn").onclick = skOpen;
+  $("#skBanner").onclick = skOpen;
+  $("#skSheet").addEventListener("click", e => { if (e.target.id === "skSheet") skClose(); });
+  // ganti hari saat app terbuka: segarkan tampilan
+  let skLastDay = dayKey();
+  setInterval(() => { const k = dayKey(); if (k === skLastDay) return; skLastDay = k; if (currentOther && currentOther !== AI_ID) skRefreshHeader(); if (me) renderList(); }, 60000);
+
   /* ----- kirim pesan ----- */
   const input = $("#msgInput");
   function autosize(){ input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 120) + "px"; syncComposer(); }
@@ -1602,7 +1811,7 @@ function boot(cfg){
     batch.set(doc(collection(db, "chats", id, "messages")),
       { from: me, text, createdAt: serverTimestamp(), clientAt: Date.now() });
     batch.set(doc(db, "chats", id),
-      { members, lastMessage: text.slice(0, 120), lastFrom: me, lastAt: serverTimestamp() }, { merge: true });
+      Object.assign({ members, lastMessage: text.slice(0, 120), lastFrom: me, lastAt: serverTimestamp() }, skMerge(id)), { merge: true });
     // Tidak di-await: saat offline pesan masuk antrean dan terkirim sendiri saat online
     batch.commit().catch(e => toast(e.code === "permission-denied" ? "Pesan ditolak server (cek aturan Firestore)." : "Pesan gagal terkirim."));
   }
@@ -1673,7 +1882,7 @@ function boot(cfg){
       createdAt: serverTimestamp(), clientAt: Date.now()
     });
     batch.set(doc(db, "chats", id, "media", msgRef.id), { from: me, data: o.b64, mime: o.mime || "" });
-    batch.set(doc(db, "chats", id), { members, lastMessage: label.slice(0, 120), lastFrom: me, lastAt: serverTimestamp() }, { merge: true });
+    batch.set(doc(db, "chats", id), Object.assign({ members, lastMessage: label.slice(0, 120), lastFrom: me, lastAt: serverTimestamp() }, skMerge(id)), { merge: true });
     mediaCache.set(id + "/" + msgRef.id, { data: o.b64, mime: o.mime });
     batch.commit().catch(e => toast(e.code === "permission-denied" ? "Ditolak server. Perbarui aturan Firestore ke versi terbaru." : "Gagal mengirim."));
   }
