@@ -419,6 +419,41 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
 @keyframes skPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.35)}100%{transform:scale(1);opacity:1}}
 @keyframes skEmber{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--x),var(--y))}}
 @media (prefers-reduced-motion:reduce){.skf,.skc-fl,.skc-n{animation:none!important}}
+
+/* ===== avatar, Talpoint, gacha, stiker ===== */
+.av svg{width:100%;height:100%;display:block}
+#btnAv{padding:0;background:none;border:0;display:flex;align-items:center;cursor:pointer}
+#btnAv .av{width:34px;height:34px;border-radius:11px}
+#avEdit .scroll{flex:1;overflow:auto;padding:12px 14px 30px}
+.tp{display:flex;align-items:center;gap:6px;margin-left:auto;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:6px 11px;font-weight:800;font-size:14px;color:#f59e0b;cursor:pointer}
+.tp i{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fde68a,#f59e0b);border:1px solid #b45309;display:inline-block}
+.avp{width:170px;height:238px;margin:0 auto 12px;border-radius:26px;overflow:hidden;border:1px solid var(--line);cursor:pointer}
+.avp svg{width:100%;height:100%;display:block}
+.avt{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px}
+.avt button{flex:none;padding:8px 13px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:13.5px;font-weight:600}
+.avt button.on{background:var(--acc);color:#fff;border-color:transparent}
+.avg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0}
+.avo{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;border:2px solid var(--line);padding:0;background:none;cursor:pointer}
+.avo.on{border-color:var(--acc)}
+.avo svg{width:100%;height:100%;display:block}
+.avo.lk svg{opacity:.35;filter:grayscale(1)}
+.avo em{position:absolute;left:0;right:0;bottom:0;font-style:normal;font-size:10px;font-weight:700;text-align:center;background:rgba(0,0,0,.65);color:#fff;padding:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avo.pop{animation:skPop .5s cubic-bezier(.2,1.6,.4,1) both}
+.avc{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.avc button{width:30px;height:30px;border-radius:10px;border:2px solid var(--line);padding:0}
+.avc button.on{border-color:var(--txt)}
+#gcCard{align-items:stretch;text-align:left;max-height:88%;overflow:auto}
+#gcCard .btn{width:100%}
+#gcCard h3{text-align:center}
+.gbox{align-self:center;animation:skShake .45s ease-in-out 3}
+#stkTray{display:none;gap:8px;padding:8px 10px;overflow-x:auto;background:var(--panel);border-top:1px solid var(--line);flex:none}
+#stkTray.show{display:flex}
+#stkTray .av{width:64px;height:64px;border-radius:16px;cursor:pointer}
+.msg.stk{background:none!important;border:0!important;padding:2px 0}
+.msg.stk .av{width:112px;height:112px;border-radius:24px}
+.msg.stk .meta,.msg.stk .meta *{color:var(--sub)!important}
+.skc-av{display:flex;gap:10px;margin-bottom:8px}
+.skc-av .av{width:68px;height:68px;border-radius:20px;border:2px solid rgba(255,255,255,.5)}
 </style>
 </head>
 <body>
@@ -495,6 +530,7 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
     <section class="screen" id="list">
       <header class="bar">
         <img class="mark js-icon" alt="" width="36" height="36"><div class="bt"><h1>Talvo</h1><div class="who" id="meName"></div></div>
+        <button class="icon-btn" id="btnAv" aria-label="Avatar"><div class="av" id="btnAvIn"></div></button>
         <button class="icon-btn" id="btnSettings" title="Pengaturan" aria-label="Pengaturan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
       </header>
       <div id="chatList"></div>
@@ -528,8 +564,10 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
       <div id="skBanner"><span></span><u>Lihat</u></div>
       <div id="msgs"></div>
       <div id="goneBar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><span id="goneTxt"></span></div>
+      <div id="stkTray"></div>
       <div class="composer">
         <button class="ic" id="attachBtn" type="button" aria-label="Lampirkan"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="ic" id="stkBtn" type="button" aria-label="Stiker avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1 1.6 2.2 2.3 3.5 2.3s2.5-.7 3.5-2.3M9 9.5v.5M15 9.5v.5"/></svg></button>
         <textarea id="msgInput" rows="1" placeholder="Tulis pesan..." maxlength="2000"></textarea>
         <button class="send" id="micBtn" type="button" aria-label="Pesan suara"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
         <button class="send" id="sendBtn" aria-label="Kirim"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
@@ -538,6 +576,23 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
         <span class="recdot"></span><span id="recTime">0:00</span><span class="rectxt">Merekam suara...</span>
         <button class="rbtn" id="recCancel" type="button">Batal</button>
         <button class="send" id="recSend" type="button" aria-label="Kirim pesan suara"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
+    </section>
+
+    <!-- AVATAR -->
+    <section class="screen" id="avEdit">
+      <header class="bar">
+        <button class="icon-btn" id="avBack" aria-label="Kembali"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <h1>Avatar</h1>
+        <button class="tp" id="avTp" type="button"><i></i><span>0</span></button>
+      </header>
+      <div class="scroll">
+        <div class="avp" id="avPrev"></div>
+        <div style="display:flex;gap:10px;margin-bottom:10px"><button class="btn alt sm" id="avRnd" type="button" style="flex:1">Acak</button><button class="btn alt sm" id="avUse" type="button" style="flex:2"></button></div>
+        <div class="avt" id="avTabs"></div>
+        <div class="avc" id="avCols"></div>
+        <div class="avg" id="avGrid"></div>
+        <button class="btn" id="avSave" type="button" style="width:100%;margin-top:14px">Simpan avatar</button>
       </div>
     </section>
 
@@ -602,7 +657,8 @@ html.theming :where(body,#app,header,section,div,button,input,textarea,span,nav,
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="skg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff3d00"/><stop offset=".55" stop-color="#ff8a00"/><stop offset="1" stop-color="#ffd23f"/></linearGradient></defs></svg>
   <div class="skov" id="skSheet"><div class="skcard" id="skCard"></div></div>
-  <div id="skCele"><div class="skc-in"><div class="skc-fl" id="skCeleFl"></div><div class="skc-n" id="skCeleN">0</div><div class="skc-t" id="skCeleT"></div><div class="skc-s" id="skCeleS"></div><div class="skc-e" id="skCeleE"></div></div></div>
+  <div class="skov" id="gcSheet"><div class="skcard" id="gcCard"></div></div>
+  <div id="skCele"><div class="skc-in"><div class="skc-av" id="skCeleAv"></div><div class="skc-fl" id="skCeleFl"></div><div class="skc-n" id="skCeleN">0</div><div class="skc-t" id="skCeleT"></div><div class="skc-s" id="skCeleS"></div><div class="skc-e" id="skCeleE"></div></div></div>
   <div id="modal">
     <div class="card">
       <h3>Tambah kontak</h3>
@@ -727,7 +783,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/fireba
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-  collection, doc, getDoc, setDoc, writeBatch, query, where, orderBy, limitToLast, onSnapshot, serverTimestamp, getDocs, limit, deleteDoc, updateDoc, deleteField }
+  collection, doc, getDoc, setDoc, writeBatch, query, where, orderBy, limitToLast, onSnapshot, serverTimestamp, getDocs, limit, deleteDoc, updateDoc, deleteField, increment, arrayUnion }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const $ = s => document.querySelector(s);
@@ -1075,8 +1131,8 @@ function boot(cfg){
     node.textContent = "";
   }
   function avatar(node, u){
-    const p = profiles.get(u);
-    if (p && p.photo) paintPhoto(node, p.photo); else paintInitial(node, u, dispName(u));
+    const p = profiles.get(u) || {};
+    if (p.photo && p.useAv !== true) paintPhoto(node, p.photo); else paintAv(node, avOf(u));
   }
   function updateMeLabel(){
     if (!me) return;
@@ -1101,7 +1157,7 @@ function boot(cfg){
       updateMeLabel();
       if ($("#settings").classList.contains("active") && draftPhoto === undefined) paintSetAvatar();
     }
-    renderList(); renderStories();
+    renderList(); renderStories(); avRefresh();
     if (currentOther === name) fillChatHeader();
   }
 
@@ -1201,6 +1257,7 @@ function boot(cfg){
       chats = snap.docs.map(d => ({ id: d.id, ...d.data({ serverTimestamps: "estimate" }) }));
       snap.docChanges().forEach(skWatch);
       chats.forEach(skSync);
+      avBest();
       watchStories(me);
       chats.forEach(c => { const o = c.members.find(m => m !== me); if (o){ watchProfile(o); watchStories(o); } });
       renderList();
@@ -1212,7 +1269,7 @@ function boot(cfg){
         lastSeenAt.set(cid, la); goneSeen.set(cid, gone);
         if (ch.type !== "modified") return;
         const viewing = currentOther && chatId(me, currentOther) === cid && !document.hidden;
-        if (!viewing && c.lastFrom && c.lastFrom !== me && la && la !== wasLa) notify(dispName(c.lastFrom), c.lastMessage || "Pesan baru");
+        if (!viewing && c.lastFrom && c.lastFrom !== me && la && la !== wasLa) notify(dispName(c.lastFrom), plainMsg(c.lastMessage) || "Pesan baru");
         if (gone && !wasGone && other) notify(dispName(other), "Menghapus atau memblokir kontakmu");
       });
       if (currentOther && currentOther !== AI_ID){
@@ -1262,7 +1319,7 @@ function boot(cfg){
         else if (sst === "in"){ nmEl.append(el("span", "sk-mini inv", "Undangan api")); } }
       mid.append(nmEl);
       const removedMe = !!(c.gone && c.gone[other]);
-      mid.append(el("div", "prev" + (removedMe ? " warn" : ""), removedMe ? "Menghapus atau memblokir kontakmu" : (c.lastMessage ? (c.lastFrom === me ? "Kamu: " : "") + c.lastMessage : "Belum ada pesan")));
+      mid.append(el("div", "prev" + (removedMe ? " warn" : ""), removedMe ? "Menghapus atau memblokir kontakmu" : (c.lastMessage ? (c.lastFrom === me ? "Kamu: " : "") + plainMsg(c.lastMessage) : "Belum ada pesan")));
       const right = el("div", "right");
       right.append(el("span", "", last ? listTime(last) : ""));
       if (unread) right.append(el("span", "dot"));
@@ -1358,13 +1415,247 @@ function boot(cfg){
   $("#wallReset").onclick = () => { saveWall({ type: "preset", value: "default" }); applyWall(); renderWalls(); };
   applyWall();
 
+  /* ----- avatar, Talpoint, gacha, stiker ----- */
+  const AV_SK = ["#ffdbb4", "#f1c27d", "#e0ac69", "#c68642", "#8d5524", "#fbe3d6"];
+  const AV_HC = ["#1f1a17", "#5b3a29", "#b5651d", "#e6c15a", "#c0c0c8", "#d94b6b", "#3b82f6", "#8b5cf6"];
+  const AV_CL = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#8b5cf6", "#ec4899", "#f5f5f5", "#334155"];
+  const AV_BG = ["#1e293b", "#7c3aed", "#0ea5e9", "#16a34a", "#f59e0b", "#e11d48", "#64748b", "#f472b6"];
+  // syarat: 0 = gratis, "u10".."u100" = terbuka lewat runtunan api, B/R/E/L = dari kotak misteri (gacha)
+  const AVC = {
+    hs: ["Rambut", [["Botak", 0], ["Pendek", 0], ["Panjang", 0], ["Jabrik", 0], ["Cepol", 0], ["Keriting", 0], ["Rambut Api", "u80"]]],
+    ey: ["Mata", [["Bulat", 0], ["Senyum", 0], ["Berkilau", 0], ["Ngantuk", 0], ["Bintang", "B"]]],
+    mo: ["Mulut", [["Senyum", 0], ["Lebar", 0], ["O", 0], ["Datar", 0], ["Kucing", "B"]]],
+    tp: ["Baju", [["Kaos", 0], ["Hoodie", 0], ["Kemeja", 0], ["Garis", 0], ["Jaket", "u40"], ["Jubah Bintang", "R"]]],
+    bt: ["Celana", [["Panjang", 0], ["Pendek", 0], ["Rok", 0], ["Overall", "u70"]]],
+    ht: ["Topi", [["Tanpa topi", 0], ["Beanie", "u10"], ["Baseball", "B"], ["Topi Tinggi", "B"], ["Mahkota", "u50"], ["Koboi", "R"], ["Penyihir", "E"]]],
+    gl: ["Kacamata", [["Tanpa", 0], ["Bulat", 0], ["Kotak", 0], ["Hitam", "u20"], ["Bintang", "u90"], ["Hati", "B"]]],
+    ac: ["Aksesoris", [["Tanpa", 0], ["Pita", "B"], ["Bunga", "B"], ["Telinga Kucing", "u30"], ["Headphone", "u60"], ["Tanduk", "R"], ["Halo Emas", "L"], ["Sayap", "L"]]],
+    ex: ["Pipi", [["Polos", 0], ["Merona", 0], ["Bintik", 0], ["Bintang", "E"]]]
+  };
+  const AV_TABS = [["sk", "Kulit"], ["hs", "Rambut"], ["ey", "Mata"], ["mo", "Mulut"], ["tp", "Baju"], ["bt", "Celana"], ["ht", "Topi"], ["gl", "Kacamata"], ["ac", "Aksesoris"], ["ex", "Pipi"], ["bg", "Latar"]];
+  const AV_COL = { sk: ["sk", AV_SK], hs: ["hc", AV_HC], tp: ["tc", AV_CL], bt: ["bc", AV_CL], bg: ["bg", AV_BG] };
+  const GR = { B: ["Biasa", "#94a3b8"], R: ["Langka", "#3b82f6"], E: ["Epik", "#a855f7"], L: ["Legendaris", "#f59e0b"] };
+  const MS = { chat: ["Kirim chat hari ini", 3], story: ["Upload 1 story", 4], fb: ["Kirim feedback atau laporan bug", 6], f3: ["Chat dengan 3 teman berbeda", 5] };
+  const AV_POSES = [undefined, "happy", "love", "sad", "angry", "shock", "sleep"];
+  const STK = [["happy", "Senang"], ["love", "Cinta"], ["sad", "Sedih"], ["angry", "Marah"], ["shock", "Kaget"], ["sleep", "Tidur"]];
+  const stkRe = /^::av:(happy|love|sad|angry|shock|sleep)::$/;
+  const plainMsg = t => stkRe.test(t || "") ? "Stiker" : t;
+  const myP = () => profiles.get(me) || {};
+  const myTp = () => myP().tp || 0;
+  const avOwn = (r, id) => !r || (r[0] === "u" ? Math.min(100, myP().best || 0) >= +r.slice(1) : (myP().inv || []).includes(id));
+  function avDefault(u){
+    let h = 7; for (const c of u) h = (h * 131 + c.charCodeAt(0)) >>> 0;
+    const r = n => { h = (h * 1103515245 + 12345) >>> 0; return (h >> 8) % n; };
+    return { sk: r(6), hs: 1 + r(5), hc: r(8), ey: r(3), mo: r(2), tp: r(4), tc: r(10), bt: r(3), bc: r(10), ht: 0, gl: 0, ac: 0, ex: r(2), bg: r(8), au: 0 };
+  }
+  const avOf = u => (profiles.get(u) || {}).av || avDefault(u);
+
+  function avSvg(c, o){
+    o = o || {};
+    const pose = o.pose, S = AV_SK[c.sk] || AV_SK[0], H = AV_HC[c.hc] || AV_HC[0], T = AV_CL[c.tc] || AV_CL[0], B = AV_CL[c.bc] || AV_CL[9];
+    const star = (x, y, k, f) => '<path transform="translate(' + x + " " + y + ") scale(" + k + ')" fill="' + f + '" d="M0-3l.9 2 2.1.3-1.6 1.5.4 2.2L0 1.9l-1.9 1.1.4-2.2L-1.1-.7l2.2-.3z"/>';
+    const heart = (x, y, k, f) => '<path transform="translate(' + x + " " + y + ") scale(" + k + ')" fill="' + f + '" d="M0 3C-6-1-6-6-2.5-6 -1-6 0-5 0-3.5 0-5 1-6 2.5-6 6-6 6-1 0 3z"/>';
+    const line = (d, w, col) => '<path d="' + d + '" stroke="' + (col || "#222") + '" stroke-width="' + (w || 2.2) + '" fill="none" stroke-linecap="round"/>';
+    let x = '<rect width="100" height="140" fill="' + AV_BG[c.bg] + '"/>';
+    if (c.au) x += '<circle cx="50" cy="62" r="50" fill="url(#skg)" opacity=".4"/><path d="M50 2c4 10 14 14 12 26 8-4 14-12 12-20 12 10 16 30 4 44H22C10 38 16 18 28 8c-2 8 2 14 8 18 0-10 8-16 14-24z" fill="url(#skg)" opacity=".5"/>';
+    if (c.ac === 7) x += '<ellipse cx="22" cy="78" rx="14" ry="22" fill="#fff" transform="rotate(-20 22 78)"/><ellipse cx="78" cy="78" rx="14" ry="22" fill="#fff" transform="rotate(20 78 78)"/>';
+    // celana dan sepatu
+    const legS = '<rect x="35" y="98" width="13" height="32" rx="5" fill="' + S + '"/><rect x="52" y="98" width="13" height="32" rx="5" fill="' + S + '"/>';
+    if (c.bt === 1) x += legS + '<rect x="35" y="98" width="13" height="17" rx="4" fill="' + B + '"/><rect x="52" y="98" width="13" height="17" rx="4" fill="' + B + '"/>';
+    else if (c.bt === 2) x += legS + '<path d="M31 98h38l7 22H24z" fill="' + B + '"/>';
+    else x += '<rect x="35" y="98" width="13" height="32" rx="5" fill="' + B + '"/><rect x="52" y="98" width="13" height="32" rx="5" fill="' + B + '"/>';
+    x += '<ellipse cx="41" cy="131" rx="8" ry="4" fill="#222"/><ellipse cx="59" cy="131" rx="8" ry="4" fill="#222"/>';
+    // lengan dan baju
+    const longSl = c.tp === 4;
+    x += '<rect x="23" y="70" width="10" height="28" rx="5" fill="' + (longSl ? T : S) + '"/><rect x="67" y="70" width="10" height="28" rx="5" fill="' + (longSl ? T : S) + '"/>';
+    x += '<path d="M32 68q18-6 36 0l3 32H29z" fill="' + (c.tp === 5 ? "#1e1b4b" : T) + '"/>';
+    if (!longSl) x += '<circle cx="28" cy="74" r="6.5" fill="' + (c.tp === 5 ? "#1e1b4b" : T) + '"/><circle cx="72" cy="74" r="6.5" fill="' + (c.tp === 5 ? "#1e1b4b" : T) + '"/>';
+    if (c.tp === 1) x += line("M36 67q14 12 28 0", 4, "rgba(0,0,0,.25)") + '<rect x="40" y="86" width="20" height="9" rx="4" fill="rgba(0,0,0,.18)"/>';
+    if (c.tp === 2) x += '<path d="M42 67l8 10 8-10z" fill="#fff"/><circle cx="50" cy="84" r="1.4" fill="#fff"/><circle cx="50" cy="92" r="1.4" fill="#fff"/>';
+    if (c.tp === 3) x += line("M30 78h40M30 88h40", 3, "rgba(255,255,255,.8)");
+    if (c.tp === 4) x += line("M50 68v32", 2, "#fff") + '<path d="M29 100l3-32 6 1-2 31zM71 100l-3-32-6 1 2 31z" fill="rgba(0,0,0,.2)"/>';
+    if (c.tp === 5) x += star(42, 80, 1.4, "#fde047") + star(58, 90, 1.2, "#fde047") + star(50, 74, 1, "#fde047");
+    if (c.bt === 3) x += line("M38 69v15M62 69v15", 4, B) + '<rect x="36" y="84" width="28" height="16" rx="3" fill="' + B + '"/>';
+    // leher, rambut belakang, telinga, kepala
+    x += '<rect x="44" y="60" width="12" height="10" fill="' + S + '"/>';
+    if (c.hs === 2) x += '<rect x="25" y="22" width="50" height="52" rx="20" fill="' + H + '"/>';
+    x += '<circle cx="27" cy="44" r="4.5" fill="' + S + '"/><circle cx="73" cy="44" r="4.5" fill="' + S + '"/><circle cx="50" cy="42" r="23" fill="' + S + '"/>';
+    // wajah
+    const E = pose === "sleep" ? 3 : pose === "happy" ? 1 : pose === "love" ? -1 : pose === "shock" ? 5 : c.ey;
+    const eye = ex => E === 1 ? line("M" + (ex - 4) + " 46q4-6 8 0")
+      : E === 2 ? '<circle cx="' + ex + '" cy="44" r="3.6" fill="#222"/><circle cx="' + (ex + 1.2) + '" cy="42.8" r="1.2" fill="#fff"/>'
+      : E === 3 ? line("M" + (ex - 4) + " 45h8")
+      : E === 4 ? star(ex, 44, 2, "#f59e0b")
+      : E === 5 ? '<circle cx="' + ex + '" cy="44" r="4.2" fill="#fff" stroke="#222" stroke-width="1.5"/><circle cx="' + ex + '" cy="44" r="1.6" fill="#222"/>'
+      : E === -1 ? heart(ex, 44, 1.1, "#ef4444")
+      : '<circle cx="' + ex + '" cy="44" r="2.7" fill="#222"/>';
+    x += eye(42) + eye(58);
+    if (pose === "angry") x += line("M37 38l9 3M63 38l-9 3", 2.4);
+    if (pose === "sad") x += '<path d="M38 50q-2 4 0 5q2-1 0-5z" fill="#60a5fa"/>';
+    if (pose === "sleep") x += line("M70 24h8l-8 9h8", 2, "#fff");
+    const Mo = { happy: 1, sad: 5, angry: 3, shock: 2, love: 0, sleep: 6 }[pose], MC = "#7a2e2e";
+    const mm = Mo == null ? c.mo : Mo;
+    x += mm === 1 ? '<path d="M43 52h14q-1 9-7 9t-7-9z" fill="' + MC + '"/>'
+      : mm === 2 ? '<ellipse cx="50" cy="55" rx="3.2" ry="4" fill="' + MC + '"/>'
+      : mm === 3 ? line("M45 56h10", 2.2, MC)
+      : mm === 4 ? line("M44 53q3 4 6 0q3 4 6 0", 2, MC)
+      : mm === 5 ? line("M44 58q6-6 12 0", 2.2, MC)
+      : mm === 6 ? '<ellipse cx="50" cy="55" rx="2" ry="2.4" fill="' + MC + '"/>'
+      : line("M44 53q6 6 12 0", 2.2, MC);
+    if (c.ex === 1) x += '<circle cx="36" cy="51" r="4" fill="#ff7a8a" opacity=".45"/><circle cx="64" cy="51" r="4" fill="#ff7a8a" opacity=".45"/>';
+    if (c.ex === 2) x += '<circle cx="35" cy="50" r=".9" fill="#a0522d"/><circle cx="38" cy="52" r=".9" fill="#a0522d"/><circle cx="33" cy="53" r=".9" fill="#a0522d"/><circle cx="65" cy="50" r=".9" fill="#a0522d"/><circle cx="62" cy="52" r=".9" fill="#a0522d"/><circle cx="67" cy="53" r=".9" fill="#a0522d"/>';
+    if (c.ex === 3) x += star(35, 51, 1.7, "#f472b6") + star(65, 51, 1.7, "#f472b6");
+    // rambut depan
+    const cap = '<path d="M26 42C24 24 36 17 50 17s26 7 24 25c-6-9-14-13-24-13s-18 4-24 13z" fill="' + H + '"/>';
+    if (c.hs === 1 || c.hs === 2) x += cap;
+    if (c.hs === 3) x += '<path d="M26 42V22l8 7 4-11 8 8 3-12 5 12 8-8 4 11 8-7v20c-6-9-14-13-24-13s-18 4-24 13z" fill="' + H + '"/>';
+    if (c.hs === 4) x += '<circle cx="50" cy="13" r="9" fill="' + H + '"/>' + cap;
+    if (c.hs === 5){ [[28, 34], [36, 24], [50, 19], [64, 24], [72, 34], [27, 46], [73, 46]].forEach(q => { x += '<circle cx="' + q[0] + '" cy="' + q[1] + '" r="9" fill="' + H + '"/>'; }); x += cap; }
+    if (c.hs === 6) x += '<path d="M26 42C24 28 33 22 31 8c8 6 8 12 12 10 2-6 0-10 5-16 3 9 11 11 12 20 3-3 4-6 3-10 8 8 8 20 8 30-6-9-14-13-24-13s-18 4-24 13z" fill="url(#skg)"/>';
+    // kacamata
+    if (c.gl === 1) x += '<circle cx="42" cy="44" r="6.5" fill="none" stroke="#222" stroke-width="1.8"/><circle cx="58" cy="44" r="6.5" fill="none" stroke="#222" stroke-width="1.8"/>' + line("M48.5 44h3", 1.8);
+    if (c.gl === 2) x += '<rect x="35.5" y="38.5" width="13" height="11" rx="2" fill="none" stroke="#222" stroke-width="1.8"/><rect x="51.5" y="38.5" width="13" height="11" rx="2" fill="none" stroke="#222" stroke-width="1.8"/>' + line("M48.5 43h3", 1.8);
+    if (c.gl === 3) x += '<rect x="34" y="39" width="15" height="10" rx="4" fill="#111"/><rect x="51" y="39" width="15" height="10" rx="4" fill="#111"/>' + line("M49 43h2", 2, "#111") + line("M37 42l4-1", 1.4, "#888");
+    if (c.gl === 4) x += star(42, 44, 2.9, "#fbbf24") + star(58, 44, 2.9, "#fbbf24");
+    if (c.gl === 5) x += heart(42, 44, 1.6, "#ec4899") + heart(58, 44, 1.6, "#ec4899");
+    // topi
+    if (c.ht === 1) x += '<path d="M26 34C26 14 74 14 74 34z" fill="#ef4444"/><rect x="25" y="31" width="50" height="7" rx="3" fill="#b91c1c"/><circle cx="50" cy="15" r="5" fill="#fff"/>';
+    if (c.ht === 2) x += '<path d="M27 34C27 14 73 14 73 34z" fill="#3b82f6"/><path d="M60 33h22q-2 6-12 5z" fill="#1d4ed8"/>';
+    if (c.ht === 3) x += '<rect x="34" y="2" width="32" height="28" rx="2" fill="#111"/><rect x="24" y="28" width="52" height="6" rx="3" fill="#111"/><rect x="34" y="22" width="32" height="5" fill="#ef4444"/>';
+    if (c.ht === 4) x += '<path d="M30 30l-2-18 12 8 10-12 10 12 12-8-2 18z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" stroke-linejoin="round"/>';
+    if (c.ht === 5) x += '<ellipse cx="50" cy="32" rx="34" ry="7" fill="#92400e"/><path d="M34 32C34 14 66 14 66 32z" fill="#b45309"/>';
+    if (c.ht === 6) x += '<ellipse cx="50" cy="32" rx="32" ry="6" fill="#4c1d95"/><path d="M34 32L50 2 66 32z" fill="#6d28d9"/>' + star(50, 20, 2, "#fde047");
+    // aksesoris kepala
+    if (c.ac === 1) x += '<path d="M66 26l-9-6v12zM66 26l9-6v12z" fill="#ec4899"/><circle cx="66" cy="26" r="3" fill="#be185d"/>';
+    if (c.ac === 2){ [[0, -6], [6, -2], [4, 5], [-4, 5], [-6, -2]].forEach(q => { x += '<circle cx="' + (68 + q[0]) + '" cy="' + (24 + q[1]) + '" r="4.5" fill="#f9a8d4"/>'; }); x += '<circle cx="68" cy="24" r="3.5" fill="#fde047"/>'; }
+    if (c.ac === 3) x += '<path d="M28 34L30 12l14 11zM72 34L70 12 56 23z" fill="' + H + '"/><path d="M32 28l1-10 7 6zM68 28l-1-10-7 6z" fill="#fda4af"/>';
+    if (c.ac === 4) x += line("M24 46C22 10 78 10 76 46", 4, "#111") + '<rect x="19" y="40" width="9" height="16" rx="4" fill="#ef4444"/><rect x="72" y="40" width="9" height="16" rx="4" fill="#ef4444"/>';
+    if (c.ac === 5) x += '<path d="M32 26L26 10l12 10zM68 26l6-16-12 10z" fill="#dc2626"/>';
+    if (c.ac === 6) x += '<ellipse cx="50" cy="12" rx="17" ry="5" fill="none" stroke="#fbbf24" stroke-width="3.5"/>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + (o.full ? "0 0 100 140" : "14 0 72 72") + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + x + "</svg>";
+  }
+  function paintAv(node, cfg, pose){ node.style.background = AV_BG[cfg.bg] || AV_BG[0]; node.innerHTML = avSvg(cfg, { pose }); }
+
+  // ----- Talpoint, misi harian, runtunan terbaik -----
+  function pSave(data){
+    const u = auth.currentUser; if (!u) return Promise.resolve(false);
+    return setDoc(doc(db, "users", me), Object.assign({ uid: u.uid, username: me }, data), { merge: true }).then(() => true)
+      .catch(() => { toast("Gagal menyimpan. Cek koneksi atau aturan Firestore."); return false; });
+  }
+  function tpGain(n, why){ if (!me || n <= 0) return; pSave({ tp: increment(n) }); toast("+" + n + " Talpoint" + (why ? " \u00B7 " + why : "")); }
+  let msMem = null;   // salinan lokal supaya misi tidak terhitung ganda sebelum data server tiba
+  function msState(){
+    const t = dayKey(), m = (msMem && msMem.d === t) ? msMem : ((myP().ms && myP().ms.d === t) ? myP().ms : { d: t });
+    return { d: t, c: (m.c || []).slice(), f: (m.f || []).slice() };
+  }
+  function msDo(id, who){
+    if (!me) return;
+    const s = msState(), before = s.c.length + s.f.length; let gain = 0;
+    const done = k => { if (!s.c.includes(k)){ s.c.push(k); gain += MS[k][1]; } };
+    if (id === "chat"){ if (who && !s.f.includes(who)) s.f.push(who); done("chat"); if (s.f.length >= 3) done("f3"); } else done(id);
+    if (s.c.length + s.f.length === before) return;
+    msMem = s;
+    pSave(Object.assign({ ms: s }, gain ? { tp: increment(gain) } : {}));
+    if (gain) toast("Misi selesai! +" + gain + " Talpoint");
+  }
+  let avBestSent = 0;
+  function avBest(){
+    if (!me || !profiles.has(me)) return;
+    const m = Math.min(100, Math.max(0, ...chats.map(c => skCount(skOf(c))))), have = Math.max(myP().best || 0, avBestSent);
+    if (m > have){ avBestSent = m; pSave({ best: m }); if (Math.floor(m / 10) > Math.floor(have / 10)) toast("Item avatar baru terbuka! Cek editor avatar."); }
+  }
+
+  // ----- kotak misteri (gacha) -----
+  const gcPool = r => { const o = []; for (const k in AVC) AVC[k][1].forEach((it, i) => { if (it[1] === r) o.push(k + i); }); return o; };
+  function gcRoll(){ const x = Math.random() * 100, r = x < 1 ? "L" : x < 8 ? "E" : x < 30 ? "R" : "B", p = gcPool(r); return p[Math.floor(Math.random() * p.length)]; }
+  const BOX_SVG = '<svg viewBox="0 0 64 64" width="96" height="96"><rect x="8" y="26" width="48" height="30" rx="4" fill="#8b5cf6"/><rect x="6" y="18" width="52" height="12" rx="4" fill="#a78bfa"/><rect x="29" y="18" width="6" height="38" fill="#fbbf24"/><path d="M32 18c-8-10-18-4-10 0zM32 18c8-10 18-4 10 0z" fill="#fbbf24"/></svg>';
+  function gcRender(){
+    const card = $("#gcCard"), tp = myTp(), st = msState(); card.textContent = "";
+    card.append(el("h3", "", tp + " Talpoint"), el("p", "", "Misi harian (reset 00.00 WIB)"));
+    Object.keys(MS).forEach(k => { const r = el("div", "sk-d"), ok = st.c.includes(k); r.append(el("span", "", MS[k][0]), el("span", ok ? "ok" : "no", ok ? "Selesai" : "+" + MS[k][1])); card.append(r); });
+    card.append(el("p", "", "Kotak Misteri"));
+    [[1, 10], [3, 25], [10, 90]].forEach(q => { const b = el("button", "btn" + (tp >= q[1] ? "" : " alt"), q[0] + "x Kotak \u00B7 " + q[1] + " Talpoint"); b.type = "button"; b.onclick = () => gcOpen(q[0], q[1]); card.append(b); });
+    card.append(el("p", "", "Peluang: Biasa 70%, Langka 22%, Epik 7%, Legendaris 1%. Item kembar diganti 3 Talpoint. Talpoint hanya didapat dari aktivitas di Talvo."));
+    const x = el("button", "btn alt", "Tutup"); x.type = "button"; x.onclick = () => $("#gcSheet").classList.remove("show"); card.append(x);
+  }
+  function gcOpen(n, cost){
+    if (myTp() < cost){ toast("Talpoint kurang."); return; }
+    const have = new Set(myP().inv || []), got = []; let back = 0;
+    for (let i = 0; i < n; i++){ const id = gcRoll(), dup = have.has(id); got.push({ id, dup }); if (dup) back += 3; else have.add(id); }
+    const fresh = [...new Set(got.filter(g => !g.dup).map(g => g.id))], data = { tp: increment(back - cost) };
+    if (fresh.length) data.inv = arrayUnion(...fresh);
+    pSave(data);
+    const card = $("#gcCard"); card.textContent = "";
+    const bx = el("div", "gbox"); bx.innerHTML = BOX_SVG; card.append(bx, el("p", "", "Membuka kotak..."));
+    setTimeout(() => {
+      card.textContent = ""; card.append(el("h3", "", "Kamu mendapat"));
+      const g = el("div", "avg");
+      got.forEach(q => { const k = q.id.slice(0, 2), i = +q.id.slice(2), it = AVC[k][1][i], t = el("div", "avo pop"); t.style.borderColor = GR[it[1]][1]; t.innerHTML = avSvg(Object.assign({}, avOf(me), { [k]: i }), {}); t.append(el("em", "", it[0] + (q.dup ? " (kembar)" : ""))); g.append(t); });
+      card.append(g);
+      if (back) card.append(el("p", "", "Item kembar diganti +" + back + " Talpoint"));
+      const ok = el("button", "btn", "Oke"); ok.type = "button"; ok.onclick = gcRender; card.append(ok);
+    }, 1400);
+  }
+  $("#avTp").onclick = () => { gcRender(); $("#gcSheet").classList.add("show"); };
+  $("#gcSheet").addEventListener("click", e => { if (e.target.id === "gcSheet") $("#gcSheet").classList.remove("show"); });
+
+  // ----- editor avatar -----
+  let avD = null, avTab = "sk", avUse = true, avPose = 0;
+  function avRender(){
+    $("#avPrev").innerHTML = avSvg(avD, { full: 1, pose: AV_POSES[avPose] });
+    $("#avTp span").textContent = myTp();
+    const ub = $("#avUse"); ub.textContent = avUse ? "Dipakai sebagai foto profil" : "Pakai sebagai foto profil"; ub.className = "btn sm" + (avUse ? "" : " alt");
+    const tabs = $("#avTabs"); tabs.textContent = "";
+    AV_TABS.forEach(q => { const b = el("button", q[0] === avTab ? "on" : "", q[1]); b.type = "button"; b.onclick = () => { avTab = q[0]; avRender(); }; tabs.append(b); });
+    const cols = $("#avCols"); cols.textContent = "";
+    const cd = AV_COL[avTab];
+    if (cd) cd[1].forEach((col, i) => { const b = el("button", avD[cd[0]] === i ? "on" : ""); b.type = "button"; b.style.background = col; b.onclick = () => { avD[cd[0]] = i; avRender(); }; cols.append(b); });
+    const grid = $("#avGrid"); grid.textContent = "";
+    const tile = (cfg, name, req, id, on, fn) => {
+      const own = avOwn(req, id), t = el("button", "avo" + (on ? " on" : "") + (own ? "" : " lk")); t.type = "button";
+      t.innerHTML = avSvg(cfg, {});
+      t.append(el("em", "", own ? name : (req[0] === "u" ? "Runtunan " + req.slice(1) : "Gacha")));
+      t.onclick = () => { if (own) fn(); else toast(req[0] === "u" ? "Buka dengan runtunan api " + req.slice(1) + " hari." : "Dapatkan lewat Kotak Misteri."); };
+      grid.append(t);
+    };
+    if (AVC[avTab]) AVC[avTab][1].forEach((it, i) => tile(Object.assign({}, avD, { [avTab]: i }), it[0], it[1], avTab + i, avD[avTab] === i, () => { avD[avTab] = i; avRender(); }));
+    if (avTab === "bg") tile(Object.assign({}, avD, { au: 1 }), "Aura Api", "u100", "au", !!avD.au, () => { avD.au = avD.au ? 0 : 1; avRender(); });
+  }
+  function avOpen(){
+    const p = myP(); avD = Object.assign({}, avOf(me)); avTab = "sk"; avPose = 0; avUse = p.useAv === true || !p.photo;
+    if (p.wb !== true){ pSave({ wb: true, tp: increment(30) }); toast("Hadiah awal +30 Talpoint"); }
+    avRender(); showScreen("avEdit"); history.pushState({ s: 2 }, "");
+  }
+  function avRefresh(){
+    if (!me) return;
+    paintAv($("#btnAvIn"), avOf(me));
+    if ($("#avEdit").classList.contains("active")) avRender();
+    if ($("#gcSheet").classList.contains("show") && !$("#gcCard .gbox") && !$("#gcCard .avg")) gcRender();
+  }
+  $("#btnAv").onclick = avOpen;
+  $("#avBack").onclick = () => history.back();
+  $("#avPrev").onclick = () => { avPose = (avPose + 1) % AV_POSES.length; avRender(); };
+  $("#avUse").onclick = () => { avUse = !avUse; avRender(); };
+  $("#avRnd").onclick = () => {
+    const r = n => Math.floor(Math.random() * n), c = Object.assign({}, avD);
+    for (const k in AVC){ const ok = []; AVC[k][1].forEach((it, i) => { if (avOwn(it[1], k + i)) ok.push(i); }); c[k] = ok[r(ok.length)]; }
+    c.sk = r(6); c.hc = r(8); c.tc = r(10); c.bc = r(10); c.bg = r(8); avD = c; avRender();
+  };
+  $("#avSave").onclick = () => { toast(navigator.onLine ? "Menyimpan avatar..." : "Offline: avatar akan tersimpan saat online."); pSave({ av: avD, useAv: avUse }).then(ok => { if (ok) toast("Avatar tersimpan."); }); history.back(); };
+
+  // ----- stiker avatar -----
+  $("#stkBtn").onclick = () => {
+    const t = $("#stkTray"); if (!t.classList.toggle("show")) return; t.textContent = "";
+    STK.forEach(q => { const a = el("div", "av"); paintAv(a, avOf(me), q[0]); a.title = q[1]; a.onclick = () => { t.classList.remove("show"); const d = input.value; input.value = "::av:" + q[0] + "::"; send(); input.value = d; autosize(); }; t.append(a); });
+  };
+
   /* ----- pengaturan ----- */
   function paintSetAvatar(){
     const node = $("#setAv");
     const p = profiles.get(me) || {};
     const photo = draftPhoto !== undefined ? draftPhoto : (p.photo || "");
-    if (photo) paintPhoto(node, photo);
-    else paintInitial(node, me, $("#setName").value.trim() || me);
+    if (photo && (draftPhoto !== undefined || p.useAv !== true)) paintPhoto(node, photo);
+    else paintAv(node, avOf(me));
   }
   function fillSettings(){
     { const d = document.getElementById("devBtn"); if (d) d.style.display = me === "salman" ? "" : "none"; }
@@ -1399,6 +1690,7 @@ function boot(cfg){
     const name = $("#setName").value.trim().slice(0, 30);
     const data = { uid: u.uid, username: me, displayName: name };
     if (draftPhoto !== undefined) data.photo = draftPhoto;
+    if (draftPhoto) data.useAv = false;
     const sent = draftPhoto;
     toast(navigator.onLine ? "Menyimpan..." : "Offline: profil akan tersimpan saat online.");
     setDoc(doc(db, "users", me), data, { merge: true })
@@ -1603,7 +1895,7 @@ function boot(cfg){
     if ($("#stView").classList.contains("show")){ closeStory(true); return; }
     if ($("#stCreate").classList.contains("show")){ closeCreator(true); return; }
     if ($("#chat").classList.contains("active")) leaveChat();
-    else if ($("#settings").classList.contains("active")) showScreen("list");
+    else if ($("#settings").classList.contains("active") || $("#avEdit").classList.contains("active")){ $("#gcSheet").classList.remove("show"); showScreen("list"); }
   });
 
   function renderMessages(snap, id){
@@ -1626,6 +1918,7 @@ function boot(cfg){
       const mine = m.from === me; lastMine = mine;
       const row = el("div", "msg " + (mine ? "me" : "them"));
       row.append(buildBody(m, d.id));
+      if (stkRe.test(m.text || "")) row.classList.add("stk");
       if (m.kind === "image" || m.kind === "audio" || m.kind === "file") row.classList.add("has-media");
       const meta = el("span", "meta");
       meta.append(el("span", "mt", fmtTime(ms)));
@@ -1673,7 +1966,7 @@ function boot(cfg){
     }
     return o;
   }
-  function skMerge(id){ const t = skTouch(chats.find(x => x.id === id)); return t ? { streak: t } : {}; }
+  function skMerge(id){ const c = chats.find(x => x.id === id); msDo("chat", ((c && c.members) || []).find(m => m !== me)); const t = skTouch(c); return t ? { streak: t } : {}; }
 
   // cadangan: kalau dua-duanya sudah chat hari ini tapi hitungan belum naik (misal sempat offline), naikkan sekarang
   const skSyncing = new Set();
@@ -1696,16 +1989,17 @@ function boot(cfg){
     if (ch.type !== "modified" || hadC === undefined || !s || !other) return;
     if (status === "invited" && s.by !== me && hadS !== "invited") notify(dispName(s.by), "Mengajakmu membangun runtunan api \uD83D\uDD25");
     if (status === "active" && hadS === "invited" && s.by === me) toast(dispName(other) + " menerima undangan. Api menyala!");
-    if (status === "active" && cnt > hadC && s.lastDay === dayKey()) skCelebrate(other, hadC, cnt);
+    if (status === "active" && cnt > hadC && s.lastDay === dayKey()){ tpGain(Math.min(cnt, 5) + (cnt % 7 === 0 ? 20 : 0), "runtunan api"); skCelebrate(other, hadC, cnt); }
   }
 
   let skTimer = null;
   function skCelebrate(other, from, to){
     const o = $("#skCele"), n = $("#skCeleN");
     $("#skCeleFl").innerHTML = skFlameSvg(150);
+    { const row = $("#skCeleAv"); row.textContent = ""; [me, other].forEach(u => { const a = el("div", "av"); paintAv(a, avOf(u), "happy"); row.append(a); }); }
     n.classList.remove("pop"); n.textContent = String(from);
     $("#skCeleT").textContent = to <= 1 ? "Api menyala!" : "Runtunan api bertambah!";
-    $("#skCeleS").textContent = "Bersama " + dispName(other) + " \u00B7 " + to + " hari berturut-turut";
+    $("#skCeleS").textContent = "Bersama " + dispName(other) + " \u00B7 " + to + " hari berturut-turut" + (to % 10 === 0 && to <= 100 ? " \u00B7 Item avatar baru terbuka!" : "");
     const em = $("#skCeleE"); em.textContent = "";
     for (let i = 0; i < 18; i++){
       const sp = document.createElement("span"), ang = (Math.random() * 160 - 170) * Math.PI / 180, dist = 90 + Math.random() * 150;
@@ -1724,7 +2018,8 @@ function boot(cfg){
 
   function skRefreshHeader(){
     const btn = $("#skBtn"), ban = $("#skBanner");
-    if (!currentOther || currentOther === AI_ID){ btn.style.display = "none"; ban.style.display = "none"; return; }
+    if (!currentOther || currentOther === AI_ID){ btn.style.display = "none"; ban.style.display = "none"; $("#stkBtn").style.display = "none"; $("#stkTray").classList.remove("show"); return; }
+    $("#stkBtn").style.display = "";
     const c = skChat(), st = skStateOf(c), s = skOf(c), t = dayKey();
     const risk = st === "active" && skCount(s) > 0 && s.lastDay === yesterdayKey() && !(((s.days || {})[me] === t) && ((s.days || {})[currentOther] === t));
     btn.style.display = "";
@@ -1957,7 +2252,9 @@ function boot(cfg){
       wrap.append(f);
       if (m.text) wrap.append(el("span", "cap", m.text));
     } else {
-      wrap.textContent = m.text;
+      const sm = stkRe.exec(m.text || "");
+      if (sm){ const a = el("div", "av"); paintAv(a, avOf(m.from), sm[1]); wrap.append(a); }
+      else wrap.textContent = m.text;
     }
     return wrap;
   }
@@ -2256,6 +2553,7 @@ function boot(cfg){
       data = Object.assign({}, base, { kind: "image", img: C.img, caption: $("#stcCap").value.trim().slice(0, 200) });
     }
     setDoc(doc(collection(db, "stories")), data)
+      .then(() => msDo("story"))
       .catch(e => toast(e.code === "permission-denied" ? "Ditolak server. Perbarui aturan Firestore ke versi terbaru." : "Story gagal dikirim."));
     closeCreator(false); setTab("stories"); toast("Story dibagikan.");
   };
@@ -2421,7 +2719,7 @@ function boot(cfg){
     setDoc(doc(collection(db, "feedback")), {
       uid: u.uid, username: me, category: fbCat, text: text.slice(0, 1000),
       ua: navigator.userAgent.slice(0, 180), app: "talvo-2", createdAt: serverTimestamp()
-    }).then(() => toast("Terima kasih! Saranmu sudah terkirim."))
+    }).then(() => { toast("Terima kasih! Saranmu sudah terkirim."); msDo("fb"); })
       .catch(e => toast(e.code === "permission-denied" ? "Ditolak server. Perbarui aturan Firestore ke versi terbaru." : "Saran gagal terkirim."));
   };
 }
